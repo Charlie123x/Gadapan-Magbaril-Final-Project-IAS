@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Malware Behavior Analysis Sandbox</title>
+
+  <link rel="stylesheet" href="style.css"/>
+</head>
+
+<body>
+
+<div class="root">
+
+  <!-- HEADER -->
+  <div class="header">
+
+    <div class="logo">
+      <span class="logo-text">MBAS</span>
+    </div>
+
+    <div class="title-block">
+      <h2>Malware Behavior Analysis</h2>
+      <p>Safe Simulation — Isolated Sandbox Environment</p>
+    </div>
+
+    <div class="sandbox-badge">
+      ⬤ SANDBOX ACTIVE
+    </div>
+
+  </div>
+
+  <!-- MAIN PANELS -->
+  <div class="panels">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+      <div class="sidebar-section">
+        Sample Library
+      </div>
+
+      <div class="malware-card active" onclick="selectSample(0)" id="card-0">
+        <div class="mname">WannaCry.sim</div>
+        <div class="mtype">Ransomware · Worm</div>
+        <div class="severity sev-critical">CRITICAL</div>
+      </div>
+
+      <div class="malware-card" onclick="selectSample(1)" id="card-1">
+        <div class="mname">Mirai.sim</div>
+        <div class="mtype">Botnet · IoT</div>
+        <div class="severity sev-high">HIGH</div>
+      </div>
+
+      <div class="malware-card" onclick="selectSample(2)" id="card-2">
+        <div class="mname">Emotet.sim</div>
+        <div class="mtype">Trojan · Loader</div>
+        <div class="severity sev-critical">CRITICAL</div>
+      </div>
+
+      <div class="malware-card" onclick="selectSample(3)" id="card-3">
+        <div class="mname">Stuxnet.sim</div>
+        <div class="mtype">Worm · ICS APT</div>
+        <div class="severity sev-critical">CRITICAL</div>
+      </div>
+
+      <div class="malware-card" onclick="selectSample(4)" id="card-4">
+        <div class="mname">Agent.Tesla.sim</div>
+        <div class="mtype">Spyware · Infostealer</div>
+        <div class="severity sev-high">HIGH</div>
+      </div>
+
+      <div class="malware-card" onclick="selectSample(5)" id="card-5">
+        <div class="mname">GrayWare.sim</div>
+        <div class="mtype">Adware · PUP</div>
+        <div class="severity sev-medium">MEDIUM</div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="main-col">
+
+      <!-- TERMINAL PANEL -->
+      <div class="main-panel">
+
+        <div class="terminal-bar">
+
+          <div class="dot dot-r"></div>
+          <div class="dot dot-y"></div>
+          <div class="dot dot-g"></div>
+
+          <span class="term-title" id="term-title">
+            sandbox://simulate/WannaCry.sim
+          </span>
+
+          <button
+            class="run-btn"
+            id="run-btn"
+            onclick="runSimulation()">
+            ▶ Run Analysis
+          </button>
+
+          <button
+            class="stop-btn"
+            id="stop-btn"
+            onclick="stopSim()"
+            style="display:none">
+            ■ Stop
+          </button>
+
+        </div>
+
+        <div class="output" id="output">
+
+          <div class="line" style="color:#444;margin-bottom:8px;">
+            <span class="msg">
+              ── Malware Behavior Analysis Sandbox v2.1 ──────────────────
+            </span>
+          </div>
+
+          <div class="line" style="color:#444;">
+            <span class="msg">
+              Select a sample from the library and press Run Analysis.
+            </span>
+          </div>
+
+          <div class="line" style="color:#444;">
+            <span class="msg">
+              All behaviors are SIMULATED. No real code executes.
+            </span>
+          </div>
+
+        </div>
+
+        <!-- STATS -->
+        <div class="stats-bar">
+
+          <div class="stat">
+            <div class="stat-num" id="s-events">0</div>
+            <div class="stat-lbl">Events</div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-num" id="s-net">0</div>
+            <div class="stat-lbl">Net Calls</div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-num" id="s-reg">0</div>
+            <div class="stat-lbl">Reg Writes</div>
+          </div>
+
+          <div class="stat">
+            <div class="stat-num" id="s-files">0</div>
+            <div class="stat-lbl">File Ops</div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ATTACK TIMELINE -->
+      <div class="behavior-timeline">
+
+        <div class="btl-title">
+          Attack Lifecycle — MITRE ATT&CK Phases
+        </div>
+
+        <div class="btl-phases" id="phases">
+
+          <div class="phase" id="ph-0">
+            <div class="phase-icon">🔬</div>
+            <div class="phase-name">Initial Access</div>
+            <div class="phase-bar">
+              <div class="phase-fill" id="pf-0"></div>
+            </div>
+          </div>
+
+          <div class="phase" id="ph-1">
+            <div class="phase-icon">⚙️</div>
+            <div class="phase-name">Execution</div>
+            <div class="phase-bar">
+              <div class="phase-fill" id="pf-1"></div>
+            </div>
+          </div>
+
+          <div class="phase" id="ph-2">
+            <div class="phase-icon">🔒</div>
+            <div class="phase-name">Persistence</div>
+            <div class="phase-bar">
+              <div class="phase-fill" id="pf-2"></div>
+            </div>
+          </div>
+
+          <div class="phase" id="ph-3">
+            <div class="phase-icon">🌐</div>
+            <div class="phase-name">C2 Comms</div>
+            <div class="phase-bar">
+              <div class="phase-fill" id="pf-3"></div>
+            </div>
+          </div>
+
+          <div class="phase" id="ph-4">
+            <div class="phase-icon">💣</div>
+            <div class="phase-name">Impact</div>
+            <div class="phase-bar">
+              <div class="phase-fill" id="pf-4"></div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- IOC PANEL -->
+  <div class="ioc-panel" id="ioc-panel">
+
+    <div class="ioc-title">
+      Indicators of Compromise (IOC)
+    </div>
+
+    <div class="ioc-grid" id="ioc-grid">
+
+      <div class="ioc-item">
+        <div class="ioc-cat">Status</div>
+        <div class="ioc-val" style="color:#555">
+          Run a simulation to see IOCs
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
